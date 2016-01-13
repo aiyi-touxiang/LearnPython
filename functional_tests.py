@@ -36,6 +36,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 应用邀请她输入一个待办事项
         inputbox = self.browser.find_element_by_id('id_new_item')
+        # 断言测试 输入框是否有占位文字
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
             'Enter a to-do item'
@@ -49,10 +50,11 @@ class NewVisitorTest(unittest.TestCase):
         # 待办事项表格中显示了“1: Buy peacock feathers”
         inputbox.send_keys(Keys.ENTER)
 
-        table = self.browser.find_element_by_id('id_list-table')
+        table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows)
+            any(row.text == '1: Buy peacock feathers' for row in rows),
+            '新的待办事项没有被插入到列表中'
         )
 
         # 页面中又显示了一个文本框,可以输入其他的待办事项
