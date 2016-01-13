@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from .views import home_page
 
@@ -20,6 +21,8 @@ class HomePage(TestCase):
         request = HttpRequest()
         # 把这个HttpRequest对象传给home_page视图,得到响应
         response = home_page(request)
-        self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertIn(b'<title>To-Do lists</title>', response.content)
-        self.assertTrue(response.content.endswith(b'</html>'))
+        expected_html = render_to_string('home.html')
+        self.assertEqual(response.content.decode(), expected_html)
+        # self.assertTrue(response.content.strip().startswith(b'<html>'))
+        # self.assertIn(b'<title>To-Do lists</title>', response.content)
+        # self.assertTrue(response.content.strip().endswith(b'</html>'))
